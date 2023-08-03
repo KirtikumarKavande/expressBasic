@@ -3,21 +3,17 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
+const shopRoutes = require("./routes/shop");
+const adminRoutes = require("./routes/admin");
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/add-product", (req, res, next) => {
-  res.send(
-    "<form action='/product'   method='POST'><input name='title' placeholder='enter product name'/> <input name='quantity' placeholder='Quantity'/><button>add product</button></form>"
-  );
-});
+app.use("/admin", adminRoutes);
 
-app.post("/product", (req, res) => {
-  console.log(req.body);
-  res.redirect("/add-product");
-});
+app.use('/admin',shopRoutes);s
 
-app.use("/", (req, res) => {
-  res.end("hello express tut");
+app.use((req, res) => {
+  res.status(404).send("<h1>404 error occured</h1>");
 });
 
 app.listen(4000);
